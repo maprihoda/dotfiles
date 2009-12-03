@@ -14,8 +14,8 @@ IRB.conf[:PROMPT][:MY_PROMPT] = {   # name of prompt mode
   :RETURN => "# => %s\n"            # :RETURN => "=> %s\n"
 }
 
-IRB.conf[:PROMPT_MODE] = :MY_PROMPT
-# IRB.conf[:PROMPT_MODE] = :SIMPLE
+# IRB.conf[:PROMPT_MODE] = :MY_PROMPT
+IRB.conf[:PROMPT_MODE] = :SIMPLE
 IRB.conf[:USE_READLINE] = true
 # IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:SAVE_HISTORY] = 1000
@@ -153,3 +153,4 @@ end
 # I would recommend to just try to ignore it or, if you
 # want, turn autoindent off and enter the whitespace
 # yourself :)
+
