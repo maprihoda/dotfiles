@@ -3,6 +3,7 @@ require 'rubygems'
 require 'irb/completion'
 require 'irb/ext/save-history'
 require 'pp'
+require 'fileutils'
 
 require 'hirb'
 extend Hirb::Console
@@ -13,14 +14,6 @@ alias p pp
 alias q exit
 
 
-IRB.conf[:PROMPT][:MY_PROMPT] = {   # name of prompt mode
-  :PROMPT_I => '',                  # normal prompt
-  :PROMPT_S => '',                  # prompt for continuing strings
-  :PROMPT_C => '',                  # prompt for continuing statement
-  :RETURN => "# => %s\n"            # :RETURN => "=> %s\n"
-}
-
-# IRB.conf[:PROMPT_MODE] = :MY_PROMPT
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 IRB.conf[:USE_READLINE] = true
 # IRB.conf[:AUTO_INDENT] = true
@@ -73,27 +66,13 @@ def exceptions
   ExceptionsHierarchy.new.traverse
 end
 
-if $0 == __FILE__
-  exceptions
-end
 
-
-# get class methods
+# http://drnicwilliams.com/2006/10/12/my-irbrc-for-consoleirb/
 class Object
-  def cmethods
-    my_super = self.class.superclass
-    return my_super ? methods - my_super.instance_methods : methods
+  def local_methods(obj = self)
+    (obj.methods - obj.class.superclass.instance_methods).sort
   end
 end
-
-# get instance methods
-class Object
-  def imethods
-    (methods - Object.instance_methods).sort
-  end
-end
-
-# User.imethods.grep /sql/
 
 
 # http://dancingpenguinsoflight.com/2009/07/improved-irb-configuration/
@@ -108,6 +87,57 @@ end
 
 #  benchmark { rand }
 #  benchmark(10000) { rand }
+
+
+# Adapted from http://gist.github.com/138432
+HISTFILE = "~/.irb.hist"
+MAXHISTSIZE = 1000
+
+def print_line(line_number, show_line_numbers = true)
+  print "[%04d] " % line_number if show_line_numbers
+  puts Readline::HISTORY[line_number]
+end
+
+if defined? Readline::HISTORY
+  histfile = File::expand_path(HISTFILE)
+  if File::exists?(histfile)
+    lines = IO::readlines(histfile).collect { |line| line.chomp }
+    Readline::HISTORY.push(*lines)
+  else
+    FileUtils.touch histfile
+  end
+
+  Kernel::at_exit do
+    lines = Readline::HISTORY.to_a.reverse.uniq.reverse
+    lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
+    File::open(histfile, 'w') do |f|
+      lines.each { |line| f.puts line }
+    end
+  end
+end
+
+def history(how_many = 50)
+  history_size = Readline::HISTORY.size
+
+  # no lines, get out of here
+  puts "No history" and return if history_size == 0
+
+  start_index = 0
+
+  # not enough lines, only show what we have
+  if history_size <= how_many
+    how_many = history_size - 1
+    end_index = how_many
+  else
+    end_index = history_size - 1 # -1 to adjust for array offset
+    start_index = end_index - how_many
+  end
+
+  start_index.upto(end_index) { |i| print_line i }
+  nil
+end
+
+alias :h :history
 
 
 # Rails specific
