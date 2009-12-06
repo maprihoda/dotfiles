@@ -1,6 +1,12 @@
+require 'rubygems'
+
 require 'irb/completion'
 require 'irb/ext/save-history'
 require 'pp'
+
+require 'hirb'
+extend Hirb::Console
+Hirb.enable
 
 
 alias p pp
