@@ -116,26 +116,35 @@ if ENV['RAILS_ENV']
     ActiveRecord::Base.connection.select_all(query)
   end
 
-  # toggle the logging of SQL queries
-  def lg
-    if !@log_set
-      @log_set = true
-      set_logger_to STDOUT
-    else
-      @log_set = false
-      set_logger_to nil
+  class MyQueryLoggingToggler
+    def toggle
+      if !@log_set
+        @log_set = true
+        set_logger_to STDOUT
+      else
+        @log_set = false
+        set_logger_to nil
+      end
+    end
+
+    private
+
+    def set_logger_to(stream)
+      ActiveRecord::Base.logger = Logger.new(stream)
+      if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
+        ActiveRecord::Base.connection_pool.clear_reloadable_connections!
+      else
+        ActiveRecord::Base.clear_active_connections!
+      end
+      ActiveRecord::Base.colorize_logging = true
+      "logger reset!"
     end
   end
 
-  def set_logger_to(stream)
-    ActiveRecord::Base.logger = Logger.new(stream)
-    if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
-      ActiveRecord::Base.connection_pool.clear_reloadable_connections!
-    else
-      ActiveRecord::Base.clear_active_connections!
-    end
-    ActiveRecord::Base.colorize_logging = true
-    "logger reset!"
+  # toggle the logging of SQL queries
+  def lg
+    @my_tiny_little_query_logging_toggler ||= MyQueryLoggingToggler.new
+    @my_tiny_little_query_logging_toggler.toggle
   end
 end
 
