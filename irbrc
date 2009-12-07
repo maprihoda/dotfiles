@@ -151,9 +151,11 @@ if ENV['RAILS_ENV']
       if !@log_set
         @log_set = true
         set_logger_to STDOUT
+        "logger on"
       else
         @log_set = false
         set_logger_to nil
+        "logger off"
       end
     end
 
@@ -167,7 +169,6 @@ if ENV['RAILS_ENV']
         ActiveRecord::Base.clear_active_connections!
       end
       ActiveRecord::Base.colorize_logging = true
-      "logger reset!"
     end
   end
 
