@@ -134,7 +134,8 @@ class IrbCommandHistory
         lines = Readline::HISTORY.to_a.reverse.uniq.reverse
         lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
         File::open(histfile, 'w') do |f|
-          lines.each { |line| f.puts line }
+          # Don't write out our inquiries about history into the histfile
+          lines.each { |line| f.puts line unless line =~ /^(h|history)(\s\d+)?$/ }
         end
       end
     end
