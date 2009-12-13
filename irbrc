@@ -90,54 +90,64 @@ end
 
 
 # Adapted from http://gist.github.com/138432
-HISTFILE = "~/.irb.hist"
-MAXHISTSIZE = 1000
+class IrbCommandHistory
+  HISTFILE = "~/.irb.hist"
+  MAXHISTSIZE = 1000
 
-def print_line(line_number, show_line_numbers = true)
-  print "[%04d] " % line_number if show_line_numbers
-  puts Readline::HISTORY[line_number]
-end
-
-if defined? Readline::HISTORY
-  histfile = File::expand_path(HISTFILE)
-  if File::exists?(histfile)
-    lines = IO::readlines(histfile).collect { |line| line.chomp }
-    Readline::HISTORY.push(*lines)
-  else
-    FileUtils.touch histfile
+  def self.print_line(line_number, show_line_numbers = true)
+    print "[%04d] " % line_number if show_line_numbers
+    puts Readline::HISTORY[line_number]
   end
 
-  Kernel::at_exit do
-    lines = Readline::HISTORY.to_a.reverse.uniq.reverse
-    lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
-    File::open(histfile, 'w') do |f|
-      lines.each { |line| f.puts line }
+  def self.history(how_many)
+    history_size = Readline::HISTORY.size
+
+    # no lines, get out of here
+    puts "No history" and return if history_size == 0
+
+    start_index = 0
+
+    # not enough lines, only show what we have
+    if history_size <= how_many
+      how_many = history_size - 1
+      end_index = how_many
+    else
+      end_index = history_size - 1 # -1 to adjust for array offset
+      start_index = end_index - how_many
+    end
+
+    start_index.upto(end_index) { |i| print_line i }
+    nil
+  end
+
+  def self.init
+    if defined? Readline::HISTORY
+      histfile = File::expand_path(HISTFILE)
+      if File::exists?(histfile)
+        lines = IO::readlines(histfile).collect { |line| line.chomp }
+        Readline::HISTORY.push(*lines)
+      else
+        FileUtils.touch histfile
+      end
+
+      Kernel::at_exit do
+        lines = Readline::HISTORY.to_a.reverse.uniq.reverse
+        lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
+        File::open(histfile, 'w') do |f|
+          lines.each { |line| f.puts line }
+        end
+      end
     end
   end
 end
 
 def history(how_many = 50)
-  history_size = Readline::HISTORY.size
-
-  # no lines, get out of here
-  puts "No history" and return if history_size == 0
-
-  start_index = 0
-
-  # not enough lines, only show what we have
-  if history_size <= how_many
-    how_many = history_size - 1
-    end_index = how_many
-  else
-    end_index = history_size - 1 # -1 to adjust for array offset
-    start_index = end_index - how_many
-  end
-
-  start_index.upto(end_index) { |i| print_line i }
-  nil
+  IrbCommandHistory.history(how_many)
 end
 
 alias :h :history
+
+IrbCommandHistory.init
 
 
 # Rails specific
