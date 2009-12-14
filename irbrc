@@ -90,7 +90,7 @@ end
 
 
 # Adapted from http://gist.github.com/138432
-class IrbCommandHistory
+module IrbCommandHistory
   HISTFILE = "~/.irb.hist"
   MAXHISTSIZE = 1000
 
