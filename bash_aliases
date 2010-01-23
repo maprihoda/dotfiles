@@ -16,3 +16,5 @@ alias pt='pstree | less'
 alias ri='clear; ri -f ansi --no-pager'		# works with Ruby 1.8
 
 alias lang='less dev/ruby/LANG.rb'
+
+alias gitalias='git config --list | grep alias'
