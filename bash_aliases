@@ -15,6 +15,7 @@ alias pt='pstree | less'
 #alias ri='clear; ri -f ansi --no-pager -i'	# works with Ruby 1.9
 alias ri='clear; ri -f ansi --no-pager'		# works with Ruby 1.8
 
-alias lang='less dev/ruby/LANG.rb'
+alias rlang='less dev/ruby/LANG.rb'
+alias plang='less dev/python/LANG.py'
 
 alias gitalias='git config --list | grep alias'
