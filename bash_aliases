@@ -1,4 +1,4 @@
-alias p='pwd'
+alias p='python'
 alias h='history'
 
 alias l='ls --file-type'
