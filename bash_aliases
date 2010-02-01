@@ -19,3 +19,5 @@ alias rlang='less dev/ruby/LANG.rb'
 alias plang='less dev/python/LANG.py'
 
 alias gitalias='git config --list | grep alias'
+
+alias mg='python manage.py'
