@@ -8,3 +8,5 @@ export GEM_HOME=/usr/lib/ruby/gems/1.8
 if [ -f ~/dev/dotfiles/bash_aliases ]; then
     . ~/dev/dotfiles/bash_aliases
 fi
+
+. ~/lib/django-trunk/extras/django_bash_completion
