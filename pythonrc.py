@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-#Configuration section
+# Configuration section
 
-hist_file = '/home/marek/.py_history'
+hist_file = '/home/ardentr/.py_history'
 max_size_bytes = 1000000
 max_size_lines = 10000
 
-#Code section, no need to modify this
+# Code section, no need to modify this
 
 import readline
 import rlcompleter

@@ -1,23 +1,30 @@
-alias p='python'
+# source ~/.bashrc
+
 alias h='history'
-
-alias l='ls --file-type'
-alias ll='ls -alh --file-type'
-alias la='ls -a --file-type'
-alias lr='ls -R --file-type'
-alias ld='ls -ld --file-type'
-
-alias r='cd; cd dev/ruby'
-alias web='cd; cd dev/webapps'
-
+alias l='ls'
+alias ll='ls -alh'
+alias la='ls -a'
+alias lr='ls -R'
+alias ld='ls -ld'
 alias pt='pstree | less'
+alias f='~/dev/scripts/find.py'
 
-#alias ri='clear; ri -f ansi --no-pager -i'	# works with Ruby 1.9
-alias ri='clear; ri -f ansi --no-pager'		# works with Ruby 1.8
+# Ruby
+alias r='rails'
+alias rlang='less -I ~/dev/ruby/LANG.rb'
+alias railsway='less -I ~/libri/ror/railsway'
+alias rspec-2='less -I ~/dev/ruby/testing/RSPEC-2.rb'
 
-alias rlang='less dev/ruby/LANG.rb'
-alias plang='less dev/python/LANG.py'
+# Javascript
+alias jlang='less -I ~/dev/javascript/LANG.js'
 
+# Python
+alias plang='less -I ~/dev/python/LANG.py'
+
+# Google App Engine
+alias dev_appserver.py='python2.5 ~/lib/google_appengine/dev_appserver.py'
+# need this because of the ssl module
+alias appcfg.py='python ~/lib/google_appengine/appcfg.py'
+
+# Git
 alias gitalias='git config --list | grep alias'
-
-alias mg='python manage.py'

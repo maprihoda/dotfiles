@@ -1,12 +1,17 @@
 export PS1="\w \$ "             # set prompt
+
 export EDITOR=gedit
-export PYTHONSTARTUP="$HOME/.pythonrc.py"
-export JRUBY_HOME=$HOME/bin/jruby
-export PATH=$PATH:$JRUBY_HOME/bin
-export GEM_HOME=/usr/lib/ruby/gems/1.8
+
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$PATH:$HOME/bin"
+fi
 
 if [ -f ~/dev/dotfiles/bash_aliases ]; then
     . ~/dev/dotfiles/bash_aliases
 fi
 
-. ~/lib/django-trunk/extras/django_bash_completion
+
+export PYTHONSTARTUP="$HOME/.pythonrc.py"
+export PYTHONPATH=$HOME/dev/lib:$PYTHONPATH
+export DJANGO_COLORS="nocolor"

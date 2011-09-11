@@ -1,8 +1,8 @@
-require 'rubygems'
+require 'rubygems' rescue nil
 
 require 'irb/completion'
 require 'irb/ext/save-history'
-require 'pp'
+require "awesome_print"
 require 'fileutils'
 
 require 'hirb'
@@ -10,13 +10,12 @@ extend Hirb::Console
 Hirb.enable
 
 
-alias p pp
 alias q exit
 
 
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 IRB.conf[:USE_READLINE] = true
-# IRB.conf[:AUTO_INDENT] = true
+IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:SAVE_HISTORY] = 1000
 IRB.conf[:HISTORY_FILE] = "~/.irb_history"
 IRB.conf[:EVAL_HISTORY] = 200
@@ -42,8 +41,13 @@ class ExceptionsHierarchy
     Module.constants.each do |c|
       c = eval(c.to_s)
       next unless c.instance_of? Class and c.ancestors.include? Exception
-      #c.ancestors.reject { |a| [BasicObject, Object, Kernel, PP::ObjectMixin].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
-      c.ancestors.reject { |a| [Object, Kernel, PP::ObjectMixin].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
+
+      case RUBY_VERSION.split('.')[1]
+      when '9'
+        c.ancestors.reject { |a| [BasicObject, Object, Kernel].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
+      when '8'
+        c.ancestors.reject { |a| [Object, Kernel].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
+      end
     end
   end
 
@@ -132,7 +136,7 @@ module IrbCommandHistory
 
       Kernel::at_exit do
         lines = Readline::HISTORY.to_a.reverse.uniq.reverse
-        lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
+        lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.count > MAXHISTSIZE
         File::open(histfile, 'w') do |f|
           # Don't write out our inquiries about history into the histfile
           lines.each { |line| f.puts line unless line =~ /^(h|history)(\s\d+)?$/ }
@@ -152,7 +156,7 @@ IrbCommandHistory.init
 
 
 # Rails specific
-if ENV['RAILS_ENV']
+if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
   def sql(query)
     ActiveRecord::Base.connection.select_all(query)
   end
@@ -174,6 +178,7 @@ if ENV['RAILS_ENV']
 
     def set_logger_to(stream)
       ActiveRecord::Base.logger = Logger.new(stream)
+
       if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
         ActiveRecord::Base.connection_pool.clear_reloadable_connections!
       else
@@ -185,29 +190,7 @@ if ENV['RAILS_ENV']
 
   # toggle the logging of SQL queries
   def lg
-    @my_tiny_little_query_logging_toggler ||= MyQueryLoggingToggler.new
-    @my_tiny_little_query_logging_toggler.toggle
+    @logging_toggler ||= MyQueryLoggingToggler.new
+    @logging_toggler.toggle
   end
 end
-
-
-# http://www.ruby-forum.com/topic/81406
-
-# >> def m
-# >>   put 'm'
-# >>   end
-
-# > with the "end"'s not lining up below the correct upper lines (here "def"
-# > and "class", respectively.) In all the examples I've seen in the book,
-# > everything (including comments) line up correctly.
-
-# It is not really possible to do because irb does not know
-# when you are going to end a block. Once you have entered
-# the end, the only way to get it to line up right would
-# be to use terminal controls through Curses or something
-# and it probably is not worth the trouble.
-
-# I would recommend to just try to ignore it or, if you
-# want, turn autoindent off and enter the whitespace
-# yourself :)
-
