@@ -1,11 +1,23 @@
-require 'rubygems' rescue nil
+require 'rubygems'
 
 require 'irb/completion'
 require 'irb/ext/save-history'
-require "awesome_print"
 require 'fileutils'
 
-require 'hirb'
+
+# Using 'Dir.chdir' and absolute paths will ensure that
+# the gems don't need to be specified in the Gemfile
+
+# also see https://github.com/carlhuda/bundler/issues/183
+
+Dir.chdir("/usr/local/lib/ruby/gems/1.8/gems/awesome_print-0.4.0/lib") do
+  require "awesome_print"
+end
+
+Dir.chdir("/usr/local/lib/ruby/gems/1.8/gems/hirb-0.5.0/lib") do
+  require "hirb"
+end
+
 extend Hirb::Console
 Hirb.enable
 
@@ -38,6 +50,7 @@ end
 class ExceptionsHierarchy
   def initialize()
     @tree = {}
+
     Module.constants.each do |c|
       c = eval(c.to_s)
       next unless c.instance_of? Class and c.ancestors.include? Exception
@@ -184,7 +197,6 @@ if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
       else
         ActiveRecord::Base.clear_active_connections!
       end
-      ActiveRecord::Base.colorize_logging = true
     end
   end
 
@@ -193,4 +205,7 @@ if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
     @logging_toggler ||= MyQueryLoggingToggler.new
     @logging_toggler.toggle
   end
+
+  lg()
 end
+
