@@ -14,6 +14,7 @@ alias r='rails'
 alias rlang='less -I ~/dev/ruby/LANG.rb'
 alias railsway='less -I ~/libri/ror/railsway'
 alias rspec-2='less -I ~/dev/ruby/testing/RSPEC-2.rb'
+alias rs='r s -b localhost'
 
 # Javascript
 alias jlang='less -I ~/dev/javascript/LANG.js'
@@ -28,3 +29,4 @@ alias appcfg.py='python ~/lib/google_appengine/appcfg.py'
 
 # Git
 alias gitalias='git config --list | grep alias'
+
