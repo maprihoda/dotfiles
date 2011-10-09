@@ -171,7 +171,7 @@ IrbCommandHistory.init
 # Rails specific
 if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
   def sql(query)
-    ActiveRecord::Base.connection.select_all(query)
+    ActiveRecord::Base.connection.select_all(query) if defined? ActiveRecord
   end
 
   class MyQueryLoggingToggler
@@ -190,12 +190,14 @@ if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
     private
 
     def set_logger_to(stream)
-      ActiveRecord::Base.logger = Logger.new(stream)
+      if defined? ActiveRecord
+        ActiveRecord::Base.logger = Logger.new(stream)
 
-      if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
-        ActiveRecord::Base.connection_pool.clear_reloadable_connections!
-      else
-        ActiveRecord::Base.clear_active_connections!
+        if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
+          ActiveRecord::Base.connection_pool.clear_reloadable_connections!
+        else
+          ActiveRecord::Base.clear_active_connections!
+        end
       end
     end
   end
