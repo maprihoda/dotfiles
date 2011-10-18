@@ -1,22 +1,11 @@
-require 'rubygems'
+# require 'rubygems'
 
 require 'irb/completion'
 require 'irb/ext/save-history'
 require 'fileutils'
 
-
-# Using 'Dir.chdir' and absolute paths will ensure that
-# the gems don't need to be specified in the Gemfile
-
-# also see https://github.com/carlhuda/bundler/issues/183
-
-Dir.chdir("/usr/local/lib/ruby/gems/1.8/gems/awesome_print-0.4.0/lib") do
-  require "awesome_print"
-end
-
-Dir.chdir("/usr/local/lib/ruby/gems/1.8/gems/hirb-0.5.0/lib") do
-  require "hirb"
-end
+require "awesome_print"
+require "hirb"
 
 extend Hirb::Console
 Hirb.enable
@@ -84,10 +73,9 @@ def exceptions
 end
 
 
-# http://drnicwilliams.com/2006/10/12/my-irbrc-for-consoleirb/
 class Object
-  def local_methods(obj = self)
-    (obj.methods - obj.class.superclass.instance_methods).sort
+  def lmethods(obj = self)
+    (obj.methods - obj.class.superclass.instance_methods - BasicObject.methods - [:yaml_tag_subclasses?]).sort
   end
 end
 

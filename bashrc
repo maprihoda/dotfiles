@@ -15,3 +15,7 @@ fi
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export PYTHONPATH=$HOME/dev/lib:$PYTHONPATH
 export DJANGO_COLORS="nocolor"
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
