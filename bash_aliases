@@ -17,6 +17,8 @@ alias rspec-2='less -I ~/dev/ruby/testing/RSPEC-2.rb'
 alias rs='r s -b localhost'
 alias ri='PAGER=/usr/bin/less ri'
 
+alias es='~/bin/elasticsearch/bin/elasticsearch -f'
+
 # Javascript
 alias jlang='less -I ~/dev/javascript/LANG.js'
 
