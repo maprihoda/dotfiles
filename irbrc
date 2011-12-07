@@ -4,12 +4,6 @@ require 'irb/completion'
 require 'irb/ext/save-history'
 require 'fileutils'
 
-require "awesome_print"
-require "hirb"
-
-extend Hirb::Console
-Hirb.enable
-
 
 alias q exit
 
