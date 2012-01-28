@@ -1,0 +1,41 @@
+
+server {
+    listen   80;
+
+    root /home/ardentr/dev/www;
+
+    index index.php;
+
+    # Make site accessible from http://localhost/
+    server_name localhost;
+
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to index.html
+        try_files $uri $uri/ /index.php;
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    error_page 404 /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    location = /50x.html {
+        root /usr/share/nginx/www;
+    }
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    location ~* \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_intercept_errors on;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
