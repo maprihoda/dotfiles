@@ -1,0 +1,27 @@
+<VirtualHost 127.0.0.1:80>
+    ServerName localhost
+    ServerAdmin ardentr@localhost
+
+    DocumentRoot /home/ardentr/dev/www
+    DirectoryIndex index.php
+
+    <Directory />
+        Options -Indexes
+        AllowOverride None
+        Order Allow,Deny
+    </Directory>
+
+    <Directory /home/ardentr/dev/www>
+        Options +Indexes +FollowSymLinks
+        Allow from localhost
+    </Directory>
+
+    ErrorLog /var/log/apache2/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+
