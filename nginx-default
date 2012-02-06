@@ -1,13 +1,15 @@
+# Default virtual host configuration for local development
 
 server {
     listen   80;
 
+    server_name localhost;
     root /home/ardentr/dev/www;
 
-    index index.php;
+    access_log off;
+    log_not_found off;
 
-    # Make site accessible from http://localhost/
-    server_name localhost;
+    index index.php;
 
     location / {
         # First attempt to serve request as file, then
