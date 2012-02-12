@@ -27,6 +27,10 @@ alias jlang='less -I ~/dev/javascript/LANG.js'
 # Python
 alias plang='less -I ~/dev/python/LANG.py'
 
+# PHP
+alias dibi='less -I /home/ardentr/dev/php/dibi/DIBI.php'
+
+
 # Google App Engine
 alias dev_appserver.py='python2.5 ~/lib/google_appengine/dev_appserver.py'
 # need this because of the ssl module
