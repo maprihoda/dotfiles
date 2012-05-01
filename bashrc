@@ -21,6 +21,7 @@ export DJANGO_COLORS="nocolor"
 export PATH=/usr/local/bin/rubydir/bin:$PATH
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+export PATH=$PATH:/home/ardentr/lib/android-sdk-linux/tools:/home/ardentr/lib/android-sdk-linux/platform-tools
 
 if [ -d "$HOME/lib/ZendFramework/bin" ] ; then
     PATH="$PATH:$HOME/lib/ZendFramework/bin"
