@@ -5,6 +5,9 @@
     DocumentRoot /home/ardentr/dev/www
     DirectoryIndex index.php
 
+    # Set this environmental variable for (local) development with the Zend Framework
+    SetEnv APPLICATION_ENV development
+
     <Directory />
         Options -Indexes
         AllowOverride None
