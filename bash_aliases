@@ -12,17 +12,17 @@ alias f='~/dev/scripts/find.py'
 # Ruby
 alias r='rails'
 alias rlang='less -I ~/dev/ruby/LANG.rb'
-alias railsway='less -I ~/libri/ror/railsway'
+alias railsway='less -I ~/libri/dev/ror/railsway'
 alias rspec-2='less -I ~/dev/ruby/testing/RSPEC-2.rb'
 alias capybara='less -I ~/dev/ruby/testing/CAPYBARA.rb'
 alias factory_girl='less -I ~/dev/ruby/testing/FACTORY-GIRL.rb'
 alias rs='r s -b localhost'
 alias ri='PAGER=/usr/bin/less ri'
 
-alias es='~/bin/elasticsearch/bin/elasticsearch -f'
+# alias es='~/bin/elasticsearch/bin/elasticsearch -f'
 
 # Javascript
-alias jlang='less -I ~/dev/javascript/LANG.js'
+alias jlang='less -I ~/dev/UI/javascript/LANG.js'
 
 # Python
 alias plang='less -I ~/dev/python/LANG.py'
