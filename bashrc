@@ -1,4 +1,4 @@
-export EDITOR=gedit
+export EDITOR=sublime
 
 
 if [ -d "$HOME/bin" ] ; then
