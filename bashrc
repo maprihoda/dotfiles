@@ -24,6 +24,7 @@ export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
 export PATH=$PATH:/home/ardentr/lib/android-sdk-linux/tools:/home/ardentr/lib/android-sdk-linux/platform-tools
 
 export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 if [ -d "$HOME/lib/ZendFramework/bin" ] ; then
     PATH="$PATH:$HOME/lib/ZendFramework/bin"
