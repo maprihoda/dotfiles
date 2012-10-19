@@ -1,16 +1,19 @@
-require "awesome_print"
-require 'hirb'
 
-Hirb.enable
+Hirb.disable if defined? Hirb
 
-Pry.config.print = proc do |output, value|
-  Hirb::View.view_or_page_output(value) || Pry::DEFAULT_PRINT.call(output, value)
-end
+Pry.config.editor = "sublime"
 
-alias q exit
+# Note that the toggle-color command can also be used to toggle color on and off while in a session.
+Pry.color = false
 
-Pry.config.editor = "gedit"
-Pry.config.prompt = [ proc { ">> " }, proc { " | " }]
+Pry.config.print = proc { |output, value| output.puts "=> #{value.to_yaml}" }
+
+Pry.commands.alias_command 'c', 'continue'
+Pry.commands.alias_command 's', 'step'
+Pry.commands.alias_command 'n', 'next'
+Pry.commands.alias_command 'l', 'ls'
+
+Pry.hooks = { :after_session => proc { puts "bye-bye" } }
 
 
 class ExceptionsHierarchy
@@ -46,45 +49,4 @@ end
 
 def exceptions
   ExceptionsHierarchy.new.traverse
-end
-
-
-if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
-  def sql(query)
-    ActiveRecord::Base.connection.select_all(query)
-  end
-
-  class MyQueryLoggingToggler
-    def toggle
-      if !@log_set
-        @log_set = true
-        set_logger_to STDOUT
-        "logger on"
-      else
-        @log_set = false
-        set_logger_to nil
-        "logger off"
-      end
-    end
-
-    private
-
-    def set_logger_to(stream)
-      ActiveRecord::Base.logger = Logger.new(stream)
-
-      if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
-        ActiveRecord::Base.connection_pool.clear_reloadable_connections!
-      else
-        ActiveRecord::Base.clear_active_connections!
-      end
-      
-      ActiveRecord::Base.colorize_logging = true
-    end
-  end
-
-  # toggle the logging of SQL queries
-  def lg
-    @logging_toggler ||= MyQueryLoggingToggler.new
-    @logging_toggler.toggle
-  end
 end
