@@ -13,7 +13,9 @@ Pry.commands.alias_command 's', 'step'
 Pry.commands.alias_command 'n', 'next'
 Pry.commands.alias_command 'l', 'ls'
 
-Pry.hooks = { :after_session => proc { puts "bye-bye" } }
+Pry.config.hooks.add_hook(:after_session, :say_bye) do
+  puts "bye-bye"
+end
 
 
 class ExceptionsHierarchy
