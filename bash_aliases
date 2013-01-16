@@ -19,7 +19,7 @@ alias lr3='less -I ~/dev/ror/lr3'
 alias rspec-2='less -I ~/dev/ror/testing/RSPEC-2.rb'
 alias capybara='less -I ~/dev/ror/testing/CAPYBARA.rb'
 alias factory_girl='less -I ~/dev/ror/testing/FACTORY-GIRL.rb'
-alias rs='r s -b 127.0.0.1'
+alias rs='bundle exec rails s -b 127.0.0.1'
 alias ri='PAGER=/usr/bin/less ri'
 
 # alias es='~/bin/elasticsearch/bin/elasticsearch -f'
