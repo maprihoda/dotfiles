@@ -7,38 +7,31 @@ alias la='ls -a'
 alias lr='ls -R'
 alias ld='ls -ld'
 alias pt='pstree | less'
-alias f='~/dev/scripts/find.py'
+alias f='~/Dropbox/dev/scripts/find.py'
 
 # Ruby
 alias r='rails'
-alias rlang='less -I ~/dev/ruby/LANG.rb'
-alias railsway='less -I ~/dev/ror/railsway'
-alias awdr='less -I ~/dev/ror/awdr'
-alias railsaction='less -I ~/dev/ror/railsaction'
-alias lr3='less -I ~/dev/ror/lr3'
-alias rspec-2='less -I ~/dev/ror/testing/RSPEC-2.rb'
-alias capybara='less -I ~/dev/ror/testing/CAPYBARA.rb'
-alias factory_girl='less -I ~/dev/ror/testing/FACTORY-GIRL.rb'
 alias rs='bundle exec rails s -b 127.0.0.1'
 alias ri='PAGER=/usr/bin/less ri'
-
-# alias es='~/bin/elasticsearch/bin/elasticsearch -f'
+alias recreate='bundle exec rake db:recreate db:test:prepare'
+alias migrate='bundle exec rake db:migrate'
+alias rlang='less -I ~/Dropbox/dev/ruby/lang/LANG.rb'
+alias rubydoc='cd ~/Dropbox/dev/ruby; find . -name "*.rb" -print0 | xargs -0 cat | less'
+alias railsdoc='cd ~/Dropbox/dev/rails; find . -name "*.rb" -print0 | xargs -0 cat | less'
 
 # Javascript
-alias jlang='less -I ~/dev/UI/javascript/LANG.js'
+alias jlang='less -I ~/Dropbox/dev/javascript/lang/LANG.js'
 
 # Python
-alias plang='less -I ~/dev/python/LANG.py'
-
-# PHP
-alias dibi='less -I /home/ardentr/dev/php/dibi/DIBI.php'
-
+alias plang='less -I ~/Dropbox/dev/python/LANG.py'
 
 # Google App Engine
-alias dev_appserver.py='python2.5 ~/lib/google_appengine/dev_appserver.py'
-# need this because of the ssl module
+alias dev_appserver.py='python ~/lib/google_appengine/dev_appserver.py'
 alias appcfg.py='python ~/lib/google_appengine/appcfg.py'
+
+# Elastic search
+# alias es='~/bin/elasticsearch/bin/elasticsearch -f'
 
 # Git
 alias gitalias='git config --list | grep alias'
-
+alias gitfiles='git diff --name-status'

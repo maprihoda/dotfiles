@@ -1,7 +1,6 @@
 syntax on
 colorscheme desert
 
-
 set tabpagemax=25
 set mouse=a
 set wildmenu
@@ -17,12 +16,10 @@ set shiftwidth=4
 set expandtab
 set softtabstop=4
 
-
 " Use Ctrl-right and Ctrl-left for next and previous tab
 map <C-T>     :tabnew<CR>
 map <C-Right> :tabnext<CR>
 map <C-Left>  :tabprevious<CR>
-
 
 " Comment Blocks of Text with vim
 " http://it.toolbox.com/wiki/index.php/Comment_Blocks_of_Text_with_vim
@@ -43,7 +40,6 @@ map ,,< :s/^<!-- \(.*\) -->$/\1/<CR><Esc>:nohlsearch<CR>
 
 " C style comments
 map ,* :s/^\(.*\)$/\/\* \1 \*\//<CR><Esc>:nohlsearch<CR>
-
 
 " map <M-c> :s/^/# /<CR>
 " map <M-x> :s/^# //<CR>

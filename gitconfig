@@ -1,0 +1,39 @@
+[user]
+	name = Marek Příhoda
+	email = marek.prihoda@gmail.com
+[color]
+	ui = true
+[core]
+	editor = vim
+	autocrlf = input
+	excludesfile = /home/marek/.gitignore
+[apply]
+	whitespace = nowarn
+[alias]
+	ci = commit
+	co = checkout
+	br = branch
+	st = status
+	unstage = reset HEAD --
+	uncommit = reset --soft HEAD^
+	last = log -1 HEAD
+	show-graph = log --graph --abbrev-commit --pretty=oneline
+	lg = log --graph --pretty='tformat:%C(yellow)%h%Cblue%d%Creset %s %C(red) %an, %ar%Creset'
+	dup = clone --depth 1 --no-hardlinks
+	pushall = push --recurse-submodules=on-demand
+	s = status -s
+[help]
+	autocorrect = 1
+[gc]
+  auto=1
+[merge]
+  summary=true
+[merge "gemfilelock"]
+  name = relocks the gemfile.lock
+  driver = bundle install
+[http]
+	sslVerify = false
+[push]
+	default = simple
+[pull]
+	rebase = true

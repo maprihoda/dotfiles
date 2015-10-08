@@ -1,8 +1,9 @@
-
 require 'irb/completion'
 require 'irb/ext/save-history'
 require 'fileutils'
 
+# require 'factory_girl_rails'
+# include FactoryGirl::Syntax::Methods
 
 alias q exit
 
@@ -191,4 +192,3 @@ if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
 
   lg()
 end
-
