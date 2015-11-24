@@ -1,14 +1,14 @@
 # source ~/.bashrc
 
-export EDITOR=sublime
+export EDITOR=subl
 
 
 if [ -d "$HOME/bin" ] ; then
     PATH="$PATH:$HOME/bin"
 fi
 
-if [ -f ~/dev/dotfiles/bash_aliases ]; then
-    . ~/dev/dotfiles/bash_aliases
+if [ -f ~/Dropbox/Documents/dev/dotfiles/bash_aliases ]; then
+    . ~/Dropbox/Documents/dev/dotfiles/bash_aliases
 fi
 
 
@@ -33,4 +33,4 @@ function parse_git_branch {
   fi
 }
 
-. ~/Dropbox/dev/git/git-completion.bash
+. ~/Dropbox/Documents/dev/git/git-completion.bash
