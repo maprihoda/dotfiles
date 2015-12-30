@@ -22,6 +22,8 @@
 	dup = clone --depth 1 --no-hardlinks
 	pushall = push --recurse-submodules=on-demand
 	s = status -s
+	prev = checkout HEAD^1
+  next = "!sh -c 'git log --reverse --pretty=%H master | awk \"/$(git rev-parse HEAD)/{getline;print}\" | xargs git checkout'"
 [help]
 	autocorrect = 1
 [gc]
