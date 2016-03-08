@@ -42,3 +42,8 @@ desktop.ini
 *.swo
 *.sublime-workspace
 dev
+Gemfile.local
+Gemfile.local.lock
+console.out
+console.out.json
+node_modules
