@@ -19,6 +19,7 @@ alias rlang='cd ~/Dropbox/Documents/dev/ruby; find . -name "*.rb" -print0 | xarg
 alias rubydoc='cd ~/Dropbox/Documents/dev/ruby; find . -name "*.rb" -print0 | xargs -0 cat | less; cd -'
 alias railsdoc='cd ~/Dropbox/Documents/dev/rails; find . -name "*.rb" -print0 | xargs -0 cat | less; cd -'
 alias be="bundle exec "
+alias rclean="bundle exec rake log:clear tmp:clear"
 
 # Javascript
 alias jlang='less -I ~/Dropbox/Documents/dev/javascript/lang/LANG.js'
