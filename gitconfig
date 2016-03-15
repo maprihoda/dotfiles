@@ -24,6 +24,7 @@
 	s = status -s
 	prev = checkout HEAD^1
   next = "!sh -c 'git log --reverse --pretty=%H master | awk \"/$(git rev-parse HEAD)/{getline;print}\" | xargs git checkout'"
+  pf = push --force-with-lease
 [help]
 	autocorrect = 1
 [gc]
