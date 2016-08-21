@@ -33,6 +33,7 @@ alias appcfg.py='python ~/lib/google_appengine/appcfg.py'
 
 # Elastic search
 alias es='~/bin/elasticsearch/bin/elasticsearch'
+alias kibana='~/bin/kibana/bin/kibana'
 
 # Git
 alias gitalias='git config --list | grep alias'
