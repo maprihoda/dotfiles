@@ -1,71 +1,20 @@
 require 'irb/completion'
-require 'irb/ext/save-history'
 require 'fileutils'
 
-# require 'factory_girl_rails'
-# include FactoryGirl::Syntax::Methods
+begin
+  require 'awesome_print'
+  AwesomePrint.irb!
+
+  require 'factory_girl_rails'
+  include FactoryGirl::Syntax::Methods
+rescue LoadError
+end
 
 alias q exit
-
 
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 IRB.conf[:USE_READLINE] = true
 IRB.conf[:AUTO_INDENT] = true
-IRB.conf[:SAVE_HISTORY] = 1000
-IRB.conf[:HISTORY_FILE] = "~/.irb_history"
-IRB.conf[:EVAL_HISTORY] = 200
-
-
-def l
-  %x{ls}.split("\n")
-end
-
-def cd(dir)
-  Dir.chdir(dir)
-  Dir.pwd
-end
-
-def pwd
-  Dir.pwd
-end
-
-
-class ExceptionsHierarchy
-  def initialize()
-    @tree = {}
-
-    Module.constants.each do |c|
-      c = eval(c.to_s)
-      next unless c.instance_of? Class and c.ancestors.include? Exception
-
-      case RUBY_VERSION.split('.')[1]
-      when '9'
-        c.ancestors.reject { |a| [BasicObject, Object, Kernel].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
-      when '8'
-        c.ancestors.reject { |a| [Object, Kernel].include? a }.reverse.inject(@tree) { |memo, e| memo[e.name] ||= {} }
-      end
-    end
-  end
-
-  def traverse
-    do_traverse(@tree)
-  end
-
-  private
-
-  def do_traverse(tree, indent=0)
-    tree.keys.sort { |i, j| i <=> j }.each do |n|
-      puts ' ' * indent + n
-      do_traverse(tree[n], indent+=2)
-      indent -= 2
-    end
-  end
-end
-
-def exceptions
-  ExceptionsHierarchy.new.traverse
-end
-
 
 class Object
   def lmethods(obj = self)
@@ -73,27 +22,12 @@ class Object
   end
 end
 
-
-# http://dancingpenguinsoflight.com/2009/07/improved-irb-configuration/
-def benchmark(repetitions=100, &block)
-  require 'benchmark'
-
-  Benchmark.bmbm do |b|
-    b.report { repetitions.times &block }
-  end
-  nil
-end
-
-#  benchmark { rand }
-#  benchmark(10000) { rand }
-
-
 # Adapted from http://gist.github.com/138432
 module IrbCommandHistory
   HISTFILE = "~/.irb.hist"
-  MAXHISTSIZE = 1000
+  MAXHISTSIZE = 10000
 
-  def self.print_line(line_number, show_line_numbers = true)
+  def self.print_line(line_number, show_line_numbers = false)
     print "[%04d] " % line_number if show_line_numbers
     puts Readline::HISTORY[line_number]
   end
@@ -141,54 +75,10 @@ module IrbCommandHistory
   end
 end
 
-def history(how_many = 50)
+def history(how_many = 100)
   IrbCommandHistory.history(how_many)
 end
 
 alias :h :history
 
 IrbCommandHistory.init
-
-
-# Rails specific
-if ENV.include?('RAILS_ENV') or (defined?(Rails) && !Rails.env.nil?)
-  def sql(query)
-    ActiveRecord::Base.connection.select_all(query) if defined? ActiveRecord
-  end
-
-  class MyQueryLoggingToggler
-    def toggle
-      if !@log_set
-        @log_set = true
-        set_logger_to STDOUT
-        "logger on"
-      else
-        @log_set = false
-        set_logger_to nil
-        "logger off"
-      end
-    end
-
-    private
-
-    def set_logger_to(stream)
-      if defined? ActiveRecord
-        ActiveRecord::Base.logger = Logger.new(stream)
-
-        if Rails::VERSION::MAJOR >= 2 and Rails::VERSION::MINOR >= 2
-          ActiveRecord::Base.connection_pool.clear_reloadable_connections!
-        else
-          ActiveRecord::Base.clear_active_connections!
-        end
-      end
-    end
-  end
-
-  # toggle the logging of SQL queries
-  def lg
-    @logging_toggler ||= MyQueryLoggingToggler.new
-    @logging_toggler.toggle
-  end
-
-  lg()
-end
