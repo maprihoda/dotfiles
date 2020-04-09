@@ -1,12 +1,12 @@
 [user]
-	name = Marek Příhoda
+	name = Marek
 	email = marek.prihoda@gmail.com
 [color]
 	ui = true
 [core]
 	editor = vim
 	autocrlf = input
-	excludesfile = /home/marek/.gitignore
+	excludesfile = ~/.gitignore
 [apply]
 	whitespace = nowarn
 [alias]
@@ -30,7 +30,8 @@
 [gc]
   auto=1
 [merge]
-  summary=true
+  summary = true
+	tool = code
 [merge "gemfilelock"]
   name = relocks the gemfile.lock
   driver = bundle install
